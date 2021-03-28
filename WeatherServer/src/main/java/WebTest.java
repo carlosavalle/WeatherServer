@@ -1,11 +1,5 @@
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.HibernateUtil;
-import model.Persistence;
-import model.Weather;
-import model.WeatherCondition;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

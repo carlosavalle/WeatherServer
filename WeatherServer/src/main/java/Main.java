@@ -1,13 +1,5 @@
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.HibernateUtil;
-import model.Persistence;
-import model.Weather;
-import model.WeatherCondition;
-import org.hibernate.*;
-import org.hibernate.query.Query;
-import org.hibernate.cfg.Configuration;
-import javax.persistence.metamodel.EntityType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +9,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Map;
 
 public class Main {
 
