@@ -15,7 +15,7 @@ public class WeatherSchedule  implements ServletContextListener{
         long initialDelay = 1;
         TimeUnit unit = TimeUnit.MINUTES;
         // period the period between successive executions
-        long period = 1;// 60 Minute!
+        long period = 15;// 60 Minute!
 
         scheduler.scheduleAtFixedRate(command, initialDelay, period, unit);
     }
