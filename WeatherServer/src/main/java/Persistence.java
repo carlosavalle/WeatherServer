@@ -6,6 +6,11 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 public class Persistence {
 
 
@@ -53,16 +58,28 @@ public class Persistence {
           }
 
       }
- /*
+
 // will return a list of students from the DB
-    public List<Student> listStudents(){
+    public List<Weather> listWeather(String sDate, String eDate) throws ParseException {
+
+
+       // String stDate ="2021-03-29 08:34:55";
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sDate);
+      //  String string2 ="2021-03-29 23:34:55";
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(eDate);
+
+
         Session session = factory.openSession();
         Transaction transaction = null;
-        List<Student> students = null;
+        List Weather = null;
         try {
             // will retrieve the student table data from the DB
             transaction = session.beginTransaction();
-            students = session.createQuery("FROM Student ").list();
+            Weather = session.createQuery("FROM Weather where date between :startDate AND :endDate")
+            //Weather = session.createQuery("FROM Weather").list();
+                    .setParameter("startDate",startDate)
+                    .setParameter("endDate",endDate)
+                    .list();
             transaction.commit();
 
         } catch (HibernateException e) {
@@ -71,9 +88,9 @@ public class Persistence {
         } finally {
             session.close();
         }
-        return students;
+        return Weather;
     }
-
+/*
     // will delete a student from the DB by id
     public void deleteStudent(Integer id) throws Exception {
         if(Validators.isValidateID(id)) {
