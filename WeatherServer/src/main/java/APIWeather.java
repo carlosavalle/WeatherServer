@@ -18,6 +18,7 @@ public class APIWeather extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // receive data from and to from the user and return a json with the weather history information
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
@@ -25,6 +26,7 @@ public class APIWeather extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         String s = null;
         try {
+            //retrieve weather history from the dates selected
             s = mapper.writeValueAsString(persistence.listWeather(startDate,endDate));
         } catch (ParseException e) {
             e.printStackTrace();

@@ -25,10 +25,12 @@ public class APIForecast extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // will convert forecast information into JSON and return the user.
         Persistence persistence = new Persistence();
         ObjectMapper mapper = new ObjectMapper();
         String s = null;
         try {
+            // will call listforecast to receive data from the specified location
             s = mapper.writeValueAsString(persistence.listForecast("Garzon"));
         } catch (ParseException e) {
             e.printStackTrace();

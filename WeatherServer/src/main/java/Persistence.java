@@ -68,13 +68,12 @@ public class Persistence {
 
       }
 
-// will return a list of students from the DB
+// will return a list of Weather history with date selected from the DB
     public List<Weather> listWeather(String sDate, String eDate) throws ParseException {
 
 
-       // String stDate ="2021-03-29 08:34:55";
         Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sDate);
-      //  String string2 ="2021-03-29 23:34:55";
+
         Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(eDate);
 
 
@@ -82,10 +81,9 @@ public class Persistence {
         Transaction transaction = null;
         List Weather = null;
         try {
-            // will retrieve the student table data from the DB
+            // will retrieve the weather  table data from the DB
             transaction = session.beginTransaction();
             Weather = session.createQuery("FROM Weather where date between :startDate AND :endDate")
-            //Weather = session.createQuery("FROM Weather").list();
                     .setParameter("startDate",startDate)
                     .setParameter("endDate",endDate)
                     .list();
@@ -100,17 +98,17 @@ public class Persistence {
         return Weather;
     }
 
-    // will return a list of students from the DB
+    // will return a list of forecast by a specified location from the DB
     public List<WeatherForecastSummary> listForecast(String location) throws ParseException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         List<WeatherForecastSummary> wfs_list = new ArrayList<>();
-
+        // retrieve the infromation for the openweathermap api
         String result = readHTTP("https://api.openweathermap.org/data/2.5/forecast?q=" + location+ "&units=imperial&apiKey=6ae2281a443225f45f30cc3a4a1d37b2");
         WeatherForecast wf = mapper.readValue(result, WeatherForecast.class);
 
         Iterator var16 = wf.getList().iterator();
-
+        // generate a summary
         while(var16.hasNext()) {
             WeatherForecastItem wf2 = (WeatherForecastItem)var16.next();
             WeatherForecastSummary auxWFS = new WeatherForecastSummary(wf2.getTime(),location,wf2.getMaxTemp(),wf2.getWind().getSpeed(),wf2.getWeatherCondition(),wf2.getRain());
@@ -120,7 +118,7 @@ public class Persistence {
         return wfs_list;
     }
 
-
+// it helps to read the json file from openweathermap
     public String readHTTP(String url) {
         try {
             URL urlObj = new URL(url);

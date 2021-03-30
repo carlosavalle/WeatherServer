@@ -1,5 +1,4 @@
-import java.util.Comparator;
-
+// used to generate a object with the information that we want to pass as JSON to the cliente for the forecast.
 public class WeatherForecastSummary {
     private String dt_txt;
     private String location;

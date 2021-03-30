@@ -1,5 +1,5 @@
 import java.util.List;
-
+// used to retrieve data from openweathermap
 public class WeatherForecast {
 
     private List<WeatherForecastItem> list;

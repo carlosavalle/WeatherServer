@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
+// used to retrieve data from openweathermap
 public class WeatherForecastItem {
     @JsonProperty("dt_txt")
     private String dt_txt;

@@ -1,3 +1,4 @@
+// used to retrieve data from openweathermap
 public class WeatherWind {
     private float speed;
 

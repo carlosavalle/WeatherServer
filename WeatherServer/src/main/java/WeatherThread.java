@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
-
+// it is used to  receive actual weather from openweathermap and then saved into the DB
 public class WeatherThread implements Runnable  {
     private ServletContext context;
     public WeatherThread(ServletContext servletContext) {
@@ -25,20 +25,17 @@ public class WeatherThread implements Runnable  {
 
 
         try {
-
-            String result = readHTTP("https://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&apiKey=6ae2281a443225f45f30cc3a4a1d37b2");
+            //get data from the openweathermap api
+            Persistence persistence = new Persistence();
+            String result = persistence.readHTTP("https://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&apiKey=6ae2281a443225f45f30cc3a4a1d37b2");
             WeatherCondition wc = mapper.readValue(result, WeatherCondition.class);
 
-            System.out.println("It is the weather condition for " + location);
-            System.out.println();
-            System.out.println(wc);
-            System.out.println();
-
             Date joiningDate = new Date();
+            //creates a weather object with the data from the API
             Weather weather = new Weather(joiningDate,wc.getId(),wc.getName(),wc.getTemperature(),wc.getHumidity(),wc.getWind().getSpeed(),wc.getPressure(), wc.getWeatherDescription(),wc.getWeatherIcon(),wc.getRain());
-            System.out.printf(weather.toString());
 
-            Persistence persistence = new Persistence();
+            // save the data in the database
+
             persistence.insertWeather(weather);
 
 
@@ -50,27 +47,5 @@ public class WeatherThread implements Runnable  {
         }
 
     }
-    public String readHTTP(String url) {
-        try {
-            URL urlObj = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection)urlObj.openConnection();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder data = new StringBuilder();
 
-            String line;
-            do {
-                line = reader.readLine();
-                if (line != null) {
-                    data.append(line);
-                }
-            } while(line != null);
-
-            return data.toString();
-        } catch (IOException var7) {
-            System.out.println("Error reading HTTP Response: " + var7);
-            return null;
-        }
-
-
-    }
 }

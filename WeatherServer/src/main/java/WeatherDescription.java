@@ -1,5 +1,5 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+// used to retrieve data from openweathermap
 public class WeatherDescription {
     @JsonProperty("main")
     private String main;

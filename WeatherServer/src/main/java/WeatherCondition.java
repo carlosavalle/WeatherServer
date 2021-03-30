@@ -3,7 +3,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Map;
-
+// used to retrieve data from openweathermap
 public class WeatherCondition {
     @JsonProperty("id")
     private int id;
@@ -11,9 +11,6 @@ public class WeatherCondition {
     @JsonProperty("name")
     private String name;
 
-   // @SerializedName("main")
-
-   //@JsonIgnoreProperties(ignoreUnknown = true)
     @JsonProperty("main")
     private Map<String, Float> measurements;
 

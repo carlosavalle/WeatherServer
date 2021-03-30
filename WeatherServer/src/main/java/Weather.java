@@ -1,6 +1,6 @@
 import javax.persistence.*;
 import java.util.Date;
-
+// used as entity for database with hibernate
 @Entity
 public class Weather {
 
