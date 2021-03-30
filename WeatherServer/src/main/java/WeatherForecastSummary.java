@@ -1,25 +1,28 @@
 import java.util.Comparator;
 
 public class WeatherForecastSummary {
-    private String city;
+    private String dt_txt;
+    private String location;
     private float maxTemp;
     private float maxWind;
+    private String weatherCondition;
+    private float rain;
 
-    public WeatherForecastSummary() {
-    }
-
-    public WeatherForecastSummary(String city, float maxTemp, float maxWind) {
-        this.city = city;
+    public WeatherForecastSummary(String dt_txt, String location, float maxTemp, float maxWind, String weatherCondition,float rain) {
+        this.dt_txt = dt_txt;
+        this.location = location;
         this.maxTemp = maxTemp;
         this.maxWind = maxWind;
+        this.weatherCondition = weatherCondition;
+        this.rain = rain;
     }
 
-    public String getCity() {
-        return city;
+    public String getDt_txt() {
+        return dt_txt;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setDt_txt(String dt_txt) {
+        this.dt_txt = dt_txt;
     }
 
     public float getMaxTemp() {
@@ -34,29 +37,35 @@ public class WeatherForecastSummary {
         return maxWind;
     }
 
+    public String getWeatherCondition() {
+        return weatherCondition;
+    }
+
+    public void setWeatherCondition(String weatherCondition) {
+        this.weatherCondition = weatherCondition;
+    }
+
     public void setMaxWind(float maxWind) {
         this.maxWind = maxWind;
     }
-// compared to sort the array to Max Temp
-    public static Comparator<WeatherForecastSummary> sortMaxTemp = new Comparator<WeatherForecastSummary>() {
-        @Override
-        public int compare(WeatherForecastSummary o1, WeatherForecastSummary o2) {
-            return Float.compare(o2.getMaxTemp(),o1.getMaxTemp());
-        }
-    };
-    // compared to sort the array to Max Wind
-    public static Comparator<WeatherForecastSummary> sortMaxWind = new Comparator<WeatherForecastSummary>() {
-        @Override
-        public int compare(WeatherForecastSummary o1, WeatherForecastSummary o2) {
-            return Float.compare(o2.getMaxWind(),o1.getMaxWind());
-        }
-    };
 
+    public String getLocation() {
+        return location;
+    }
+
+    public float getRain() {
+        return rain;
+    }
 
     @Override
     public String toString() {
-        return  "city='" + city + '\'' +
+        return "WeatherForecastSummary{" +
+                "dt_txt='" + dt_txt + '\'' +
+                ", location='" + location + '\'' +
                 ", maxTemp=" + maxTemp +
-                ", maxWind=" + maxWind ;
+                ", maxWind=" + maxWind +
+                ", weatherCondition='" + weatherCondition + '\'' +
+                ", rain=" + rain +
+                '}';
     }
 }

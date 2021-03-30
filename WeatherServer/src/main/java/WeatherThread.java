@@ -20,7 +20,6 @@ public class WeatherThread implements Runnable  {
 
         String location = "Garzon";
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.printf("Enter the location: ");
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
@@ -29,7 +28,6 @@ public class WeatherThread implements Runnable  {
 
             String result = readHTTP("https://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&apiKey=6ae2281a443225f45f30cc3a4a1d37b2");
             WeatherCondition wc = mapper.readValue(result, WeatherCondition.class);
-            //  WeatherForecast wc = mapper.readValue(result, WeatherForecast.class);;
 
             System.out.println("It is the weather condition for " + location);
             System.out.println();

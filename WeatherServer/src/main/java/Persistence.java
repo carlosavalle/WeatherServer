@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -6,9 +8,16 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class Persistence {
@@ -90,41 +99,51 @@ public class Persistence {
         }
         return Weather;
     }
-/*
-    // will delete a student from the DB by id
-    public void deleteStudent(Integer id) throws Exception {
-        if(Validators.isValidateID(id)) {
-            Session session = factory.openSession();
-            Transaction transaction = null;
-            try {
-                // begin the transaction
-                transaction = session.beginTransaction();
-                // get the student by the ide
-                Student student = session.get(Student.class, id);
-                // checks of the student object contains the object and removes it if it exists.
-                if (student != null) {
-                    session.remove(student);
-                    transaction.commit();
-                }else {
-                    throw new Exception("The user does not exist");
-                }
 
+    // will return a list of students from the DB
+    public List<WeatherForecastSummary> listForecast(String location) throws ParseException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        List<WeatherForecastSummary> wfs_list = new ArrayList<>();
 
-            } catch (HibernateException e) {
-                if (transaction != null) transaction.rollback();
-                e.printStackTrace();
-            } finally {
-                session.close();
-            }
-        }
-        else{
-            throw new Exception("Invalid student id");
+        String result = readHTTP("https://api.openweathermap.org/data/2.5/forecast?q=" + location+ "&units=imperial&apiKey=6ae2281a443225f45f30cc3a4a1d37b2");
+        WeatherForecast wf = mapper.readValue(result, WeatherForecast.class);
 
-            }
+        Iterator var16 = wf.getList().iterator();
+
+        while(var16.hasNext()) {
+            WeatherForecastItem wf2 = (WeatherForecastItem)var16.next();
+            WeatherForecastSummary auxWFS = new WeatherForecastSummary(wf2.getTime(),location,wf2.getMaxTemp(),wf2.getWind().getSpeed(),wf2.getWeatherCondition(),wf2.getRain());
+            wfs_list.add(auxWFS);
         }
 
-        */
+        return wfs_list;
     }
+
+
+    public String readHTTP(String url) {
+        try {
+            URL urlObj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection)urlObj.openConnection();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder data = new StringBuilder();
+
+            String line;
+            do {
+                line = reader.readLine();
+                if (line != null) {
+                    data.append(line);
+                }
+            } while(line != null);
+
+            return data.toString();
+        } catch (IOException var7) {
+            System.out.println("Error reading HTTP Response: " + var7);
+            return null;
+        }
+
+    }
+}
 
 
 

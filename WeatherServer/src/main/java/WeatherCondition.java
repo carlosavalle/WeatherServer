@@ -26,6 +26,8 @@ public class WeatherCondition {
     @JsonProperty("rain")
     private Map<String, Float> rain;
 
+
+
     public WeatherCondition() {
     }
 

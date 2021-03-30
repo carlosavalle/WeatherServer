@@ -14,7 +14,6 @@ public class WeatherDescription {
     public WeatherDescription() {
     }
 
-
     public String getDescription() {
         return description;
     }

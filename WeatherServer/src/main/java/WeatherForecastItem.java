@@ -12,6 +12,8 @@ public class WeatherForecastItem {
     private WeatherWind wind;
     @JsonProperty("weather")
     private List<WeatherDescription> weather;
+    @JsonProperty("rain")
+    private Map<String, Float> rain;
 
     public WeatherForecastItem() {
     }
@@ -41,6 +43,13 @@ public class WeatherForecastItem {
 
     public WeatherWind getWind() {
         return wind;
+    }
+
+    public float getRain(){
+        if (rain == null){
+            return 0.0F;
+        }
+        return rain.get("3h");
     }
 
     @Override
